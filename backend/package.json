@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "start": "npx db-migrate up -e dev && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -28,6 +30,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "mocha": "^10.3.0",
     "nodemon": "^3.1.0",
+    "rimraf": "^5.0.5",
     "supertest": "^6.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
