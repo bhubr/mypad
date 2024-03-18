@@ -46,22 +46,20 @@ export async function insertIntoTable<U, V>(
   return record;
 }
 
+export async function getFromTableByField<T>(
+  table: string,
+  field: string,
+  value: Scalar,
+): Promise<T> {
+  const rows = await queryAsync<T[]>(`SELECT * FROM ${table} WHERE ${field} = ?`, value);
+  return rows[0];
+}
+
 export async function insertUser(payload: IUserDTO): Promise<IUser> {
-  // await queryAsync(
-  //   `INSERT INTO user
-  //     (email, passwordHash, createdAt, updatedAt)
-  //   VALUES
-  //     (?, ?, ?, ?)`,
-  //   payload.email,
-  //   payload.passwordHash,
-  //   payload.createdAt,
-  //   payload.updatedAt,
-  // );
-  // const rows = await queryAsync<[{ id: number }]>(
-  //   'SELECT last_insert_rowid() as id',
-  // );
-  // const { passwordHash, ...rest } = payload;
-  // return { id: rows[0].id, ...rest };
+  const existingUser = await getFromTableByField<IUser>('user', 'email', payload.email);
+  if (existingUser !== undefined) {
+    throw new Error('User with this email already exists');
+  }
   return await insertIntoTable<IUserDTO, IUser>('user', payload);
 }
 

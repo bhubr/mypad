@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import { createUser } from '../src/models/user';
-import { create } from 'domain';
 
 // take email from command line
 const email = process.argv[2];
