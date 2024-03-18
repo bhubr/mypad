@@ -1,5 +1,5 @@
 import express from 'express';
-import { queryAsync } from '../db';
+import { insertPad, queryAsync } from '../db';
 import isEmpty from '../helpers/is-empty';
 
 const padsRouter = express.Router();
@@ -13,6 +13,26 @@ padsRouter.get('/', async (req, res) => {
   }
 });
 
+padsRouter.get('/:id', async (req, res) => {
+  try {
+    const [pad] = await queryAsync<
+      Array<{
+        id: number;
+        title: string;
+        content: string;
+        createdAt: string;
+        updatedAt: string;
+      }>
+    >('SELECT * FROM pad WHERE id = ?', req.params.id);
+    if (pad === undefined) {
+      return res.status(404).json({ message: 'Pad not found' });
+    }
+    res.json(pad);
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
+  }
+});
+
 padsRouter.post('/', async (req, res) => {
   const { title, content } = req.body;
   if (isEmpty(title) || isEmpty(content)) {
@@ -20,15 +40,8 @@ padsRouter.post('/', async (req, res) => {
   }
   const createdAt = new Date().toISOString();
   const payload = { title, content, createdAt, updatedAt: createdAt };
-  await queryAsync(
-    `INSERT INTO pad (title, content, createdAt, updatedAt)
-    VALUES (?, ?, ?, ?)`,
-    payload.title,
-    payload.content,
-    payload.createdAt,
-    payload.updatedAt,
-  );
-  res.status(201).json(payload);
+  const pad = await insertPad(payload)
+  res.status(201).json(pad);
 });
 
 padsRouter.put('/:id', async (req, res) => {

@@ -35,6 +35,11 @@ export const readPads = async () => {
   return res.data;
 };
 
+export const readOnePad = async (id: number) => {
+  const res = await api.get(`/pads/${id}`);
+  return res.data;
+};
+
 export const createPad = async (payload: {
   title: string;
   content: string;

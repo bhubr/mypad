@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { readPads } from '../api';
 import { IPad } from '../types';
 
@@ -24,10 +25,12 @@ export default function Home() {
   return (
     <div>
       <h1>Pads</h1>
+      <Link to="/create-pad">Create Pad</Link>
       {pads?.map((pad) => (
         <div key={pad.id}>
           <h2>{pad.title}</h2>
           <p>{pad.content}</p>
+          <Link to={`/pads/${pad.id}`}>Edit</Link>
         </div>
       ))}
     </div>

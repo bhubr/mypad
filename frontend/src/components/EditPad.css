@@ -1,0 +1,10 @@
+.EditPad label,
+.EditPad input,
+.EditPad textarea {
+  display: block;
+  width: 600px;
+}
+
+.EditPad textarea {
+  height: 60vh;
+}

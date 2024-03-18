@@ -49,3 +49,29 @@ export async function insertUser(payload: {
   const { passwordHash, ...rest } = payload;
   return { id: rows[0].id, ...rest };
 }
+
+export async function insertPad(payload: {
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}): Promise<{
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}> {
+  await queryAsync(
+    `INSERT INTO pad (title, content, createdAt, updatedAt)
+    VALUES (?, ?, ?, ?)`,
+    payload.title,
+    payload.content,
+    payload.createdAt,
+    payload.updatedAt,
+  );
+  const rows = await queryAsync<[{ id: number }]>(
+    'SELECT last_insert_rowid() as id',
+  );
+  return { id: rows[0].id, ...payload };
+}
