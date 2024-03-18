@@ -1,0 +1,28 @@
+.SigninSignup {
+  padding: 3em;
+  border: 1px solid #444;
+  text-align: center;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.SigninSignup button {
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  border-color: transparent;
+}
+
+.SigninSignup .form-element {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.SigninSignup .form-element label,
+.SigninSignup .form-element input {
+  display: inline-block;
+}
+
+.SigninSignup .form-element input {
+  display: block;
+  width: 100%;
+}

@@ -3,6 +3,6 @@ POST http://localhost:5060/api/auth/signup
 Content-Type: application/json; charset=utf-8
 
 {
-  "email": "test",
+  "email": "test@example.com",
   "password": "test"
 }
