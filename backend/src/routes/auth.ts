@@ -36,7 +36,7 @@ authRouter.post('/signup', async (req, res) => {
 
 authRouter.post('/signin', async (req, res) => {
   const { email, password } = req.body;
-  // console.log(req.body, isEmpty(email), isEmpty(password));
+  console.log(req.body, isEmpty(email), isEmpty(password));
   if (isEmpty(email) || isEmpty(password)) {
     return res.status(400).json({ message: 'Email and password are required' });
   }
@@ -53,7 +53,6 @@ authRouter.post('/signin', async (req, res) => {
         WHERE email = ?`,
       email,
     );
-    console.log('>> user', user);
     if (user === undefined) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -66,7 +65,7 @@ authRouter.post('/signin', async (req, res) => {
     }
     const jwt = createJwt(user.id);
     res.cookie('jwt', jwt, { httpOnly: true });
-    return res.status(200).json({ id: user.id, email: user.email });
+    return res.status(200).json({ id: user.id, email: user.email, jwt });
   } catch (err) {
     const message = (err as Error).message;
     return res.status(400).json({ error: message });

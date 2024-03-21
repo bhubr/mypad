@@ -11,7 +11,8 @@ const app = express();
 if (!isProduction) {
   app.use(
     cors({
-      origin: 'http://192.168.1.35:5173',
+      origin: 'http://192.168.123.177:5173',
+      // origin: 'http://192.168.1.35:5173',
       credentials: true,
     }),
   );
