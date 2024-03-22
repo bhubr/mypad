@@ -11,7 +11,7 @@ const authRouter = express.Router();
 
 const createJwt = (userId: number): string =>
   jwt.sign({ userId }, jwtSecret, {
-    expiresIn: '1d',
+    expiresIn: '1h',
   });
 
 authRouter.post('/signup', async (req, res) => {
@@ -63,9 +63,15 @@ authRouter.post('/signin', async (req, res) => {
     if (!validPassword) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
+    const jwtExpiresAt = Date.now() + 3600000;
     const jwt = createJwt(user.id);
     res.cookie('jwt', jwt, { httpOnly: true });
-    return res.status(200).json({ id: user.id, email: user.email, jwt });
+    return res.status(200).json({
+      id: user.id,
+      email: user.email,
+      jwt,
+      jwtExpiresAt,
+    });
   } catch (err) {
     const message = (err as Error).message;
     return res.status(400).json({ error: message });

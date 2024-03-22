@@ -20,7 +20,7 @@ export default function PadList({ jwt, setError }) {
   }, [jwt]);
 
   return (
-    <View>
+    <View style={styles.container}>
       {pads ? (
         <FlatList
           data={pads}
@@ -39,6 +39,11 @@ export default function PadList({ jwt, setError }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: "80%",
+    // borderWidth: 1,
+    // borderColor: "red",
+  },
   itemTitle: {
     fontWeight: "bold",
   },
